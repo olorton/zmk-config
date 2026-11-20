@@ -8,7 +8,7 @@ ZMK firmware config for a wireless Corne using nice!nano v2-compatible (nRF52840
 
 ## Requirements
 
-Builds run locally in Docker, using the same image as ZMK's CI. On macOS, use Colima:
+Builds run locally in Docker. On macOS, use Colima:
 
 ```sh
 brew install colima docker
@@ -58,7 +58,3 @@ Usually you only need to flash the **left half** (the central, which talks to th
 | Next key in | `&sys_reset`: restart that half |
 | Left home row | `BT_CLR`, `BT_SEL 0–4`: clear or select Bluetooth profiles |
 | Left bottom outer | `OUT_TOG`: toggle USB / Bluetooth output |
-
-## CI
-
-`.github/workflows/build.yml` also builds on every push, as a cross-check. The firmware is available as an artifact on the Actions tab.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build ZMK firmware locally in Docker, using the same image and west steps as ZMK's CI.
+# Build ZMK firmware locally in Docker, using ZMK's official build image.
 #
 # Usage: ./build.sh [left|right|reset|all] [--update]
 #   --update   force `west update` (otherwise only run on first build or when config/west.yml changes)
@@ -25,7 +25,7 @@ for arg in "$@"; do
   esac
 done
 
-# Keep in sync with build.yaml
+# Build targets
 case "$target" in
   left)  shields="corne_left" ;;
   right) shields="corne_right" ;;
@@ -40,7 +40,7 @@ fi
 
 mkdir -p "$REPO_DIR/firmware"
 
-# Mirrors ZMK's build-user-config workflow: the west workspace (zmk, zephyr, modules,
+# The west workspace (zmk, zephyr, modules,
 # build dirs) lives in a persistent Docker volume; config/ is copied into it, and the
 # repo itself is passed as an extra module (it has zephyr/module.yml for custom boards/shields).
 docker run --rm \
