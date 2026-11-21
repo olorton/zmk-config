@@ -73,7 +73,7 @@ SYS (hold Z + X)
 ```
 
 - **One-shot modifiers** (CMD/ALT/CTRL/SHIFT on the home rows of SYM, NAV and NUM): tap one or more, release the layer, then press a key. For example, Cmd-Shift-T is: hold NAV, tap D (Cmd) and A (Shift), release NAV, tap T. Holding a modifier while pressing a key works like a normal modifier.
-- **SWWIN** (NAV + W) is a Cmd-Tab app switcher. Keep holding NAV and tap W again to move along the list. Cmd is released when you press any other key or release NAV. **SWLNG** does the same with Ctrl-Space to switch input language.
+- **SWWIN** (NAV + W) is a Cmd-Tab app switcher. Keep holding NAV and tap W again to move along the list. To go **backwards**, hold **A** (Shift) while tapping W. Cmd is released when you press any other key or release NAV. **SWLNG** does the same with Ctrl-Space to switch input language.
 - **TAB← / TAB→** = Cmd-Shift-[ / ], the previous/next tab. **BACK / FWD** = Cmd-[ / ]. **HOME / END** = Cmd-← / →, the start/end of the line. **SPC← / SPC→** = Option-Cmd-← / → (Callum's "space left/right" shortcuts, which you can bind in macOS, e.g. to switch desktops).
 - **SYS:** BT1–5 select a Bluetooth profile, BTCLR clears the current profile's pairing, USB/BT toggles output. BOOT and RST act on the half they're pressed on.
 

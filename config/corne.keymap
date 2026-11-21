@@ -59,6 +59,9 @@
                         compatible = "zmk,behavior-tri-state";
                         #binding-cells = <0>;
                         bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
+                        // Shift keys don't end the swap, so Shift + SW_WIN goes backwards (Cmd-Shift-Tab):
+                        // 10 = NAV's one-shot Shift (A position), 32 = left inner thumb Shift.
+                        ignored-key-positions = <10 32>;
                 };
                 sw_lang: swapper_lang {
                         compatible = "zmk,behavior-tri-state";
