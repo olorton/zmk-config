@@ -4,11 +4,17 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: dhruvinsh
+      url-base: https://github.com/dhruvinsh
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
   projects:
     - name: zmk
       remote: zmkfirmware
       import: app/west.yml
+    # Tri-state behavior, used for Callum-style swappers (SW_WIN / SW_LANG)
+    - name: zmk-tri-state
+      remote: dhruvinsh
+      revision: ebbc1f0ccdb51669650bb0ac3e34920d09e62400
   self:
     path: config
