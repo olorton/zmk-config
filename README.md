@@ -5,6 +5,8 @@ ZMK firmware config for a wireless Corne (3x5 + 3 thumbs) using nice!nano v2-com
 - `config/corne.keymap`: layers and key bindings
 - `config/corne.conf`: firmware options (sleep, display, etc.)
 - `config/west.yml`: pinned ZMK version, plus the [zmk-tri-state](https://github.com/dhruvinsh/zmk-tri-state) module (used for the swappers)
+- `src/behaviors/`: custom behaviors (Callum's one-shot mods). The repo is a Zephyr module (`zephyr/module.yml`, `CMakeLists.txt`, `Kconfig`, `dts/`)
+- `tests/`: behavior unit tests (see [Test](#test))
 
 ## Requirements
 
@@ -24,6 +26,14 @@ colima start --cpus 4 --memory 4 --mount-inotify=false
 ```
 
 Firmware is written to `firmware/` (git-ignored). The first build downloads the image and ZMK/Zephyr into a Docker volume called `zmk-workspace`, which takes a few minutes. Later builds take seconds.
+
+## Test
+
+```sh
+./build.sh test
+```
+
+This runs the behavior unit tests in `tests/` with ZMK's own test harness. Each case builds the firmware for a native (Linux) board, plays a scripted sequence of key presses through a mock key matrix, and compares the key events sent to the computer with `keycode_events.snapshot`. The snapshots are written by hand from Callum's rules. It takes a few minutes. For build output, run `ZMK_TESTS_VERBOSE=1 ./build.sh test`.
 
 ## Flash
 
@@ -72,7 +82,7 @@ SYS (hold Z + X)
 (Z)   (X)   ---   ---  ---  | BOOT  RST   ---   ---   ---
 ```
 
-- **One-shot modifiers** (CMD/ALT/CTRL/SHIFT on the home rows of SYM, NAV and NUM): tap one or more, release the layer, then press a key. For example, Cmd-Shift-T is: hold NAV, tap D (Cmd) and A (Shift), release NAV, tap T. Holding a modifier while pressing a key works like a normal modifier.
+- **One-shot modifiers** (CMD/ALT/CTRL/SHIFT on the home rows of SYM, NAV and NUM): tap one or more, release the layer, then press a key. For example, Cmd-Shift-T is: hold NAV, tap D (Cmd) and A (Shift), release NAV, tap T. Holding a modifier while pressing a key works like a normal modifier. A tapped modifier waits for the next key with no timeout. **Pressing NAV or SYM cancels it**, so pick modifiers on the same layer as the key they apply to, e.g. Cmd-Tab is hold NAV, tap D, tap Q.
 - **SWWIN** (NAV + W) is a Cmd-Tab app switcher. Keep holding NAV and tap W again to move along the list. To go **backwards**, hold **A** (Shift) while tapping W. Cmd is released when you press any other key or release NAV. **SWLNG** does the same with Ctrl-Space to switch input language.
 - **TAB← / TAB→** = Cmd-Shift-[ / ], the previous/next tab. **BACK / FWD** = Cmd-[ / ]. **HOME / END** = Cmd-← / →, the start/end of the line. **SPC← / SPC→** = Option-Cmd-← / → (Callum's "space left/right" shortcuts, which you can bind in macOS, e.g. to switch desktops).
 - **SYS:** BT1–5 select a Bluetooth profile, BTCLR clears the current profile's pairing, USB/BT toggles output. BOOT and RST act on the half they're pressed on.
@@ -80,5 +90,5 @@ SYS (hold Z + X)
 **Differences from Callum's QMK version:**
 - QWERTY base (Callum uses Colemak).
 - 3 thumbs per side; the outer thumbs are blank.
-- One-shot mods are ZMK sticky keys. An unused one is dropped after 2 s (`release-after-ms` in the keymap), rather than being cancelled by tapping NAV/SYM.
+- One-shot mods behave the same as Callum's. They're a port of his `oneshot.c` as a custom ZMK behavior (`src/behaviors/behavior_callum_oneshot.c`), because ZMK's built-in sticky keys time out and can't be cancelled by NAV/SYM.
 - The SYS layer is added for Bluetooth, USB/BT output, and BOOT/RST on each half.

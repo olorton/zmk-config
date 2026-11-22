@@ -1,0 +1,13 @@
+/* A queued one-shot never times out (here: 5 s idle before the next key). */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_RELEASE(0,1,5000) /* release layer, then wait 5 s */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: still shifted */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

@@ -5,8 +5,7 @@
  * Differences from Callum:
  *   - QWERTY base layer (Callum uses Colemak).
  *   - 3 thumb keys per side: Callum's two go on the middle + inner thumbs; the outer thumbs are blank.
- *   - One-shot mods are ZMK sticky keys (&sk). They time out after release-after-ms instead of being
- *     cancelled by tapping NAV/SYM.
+ *   - One-shot mods (&osm) are a port of Callum's oneshot.c in src/behaviors/, tested in tests/oneshot/.
  *   - Added a SYS layer (hold Z+X) for Bluetooth, USB/BT output, bootloader and reset on each half.
  */
 
@@ -31,20 +30,14 @@
 #define SPCL  &kp LA(LG(LEFT))
 #define SPC_R &kp LA(LG(RIGHT))
 
-// One-shot modifiers
-#define OS_SHFT &sk LSHIFT
-#define OS_CTRL &sk LCTRL
-#define OS_ALT  &sk LALT
-#define OS_CMD  &sk LGUI
+// One-shot modifiers (Callum's oneshot.c, see the osm behavior below)
+#define OS_SHFT &osm LSHIFT
+#define OS_CTRL &osm LCTRL
+#define OS_ALT  &osm LALT
+#define OS_CMD  &osm LGUI
 
 #define XXX &none
 #define ___ &trans
-
-// An unused one-shot modifier is dropped after this long (Callum's version has no timeout,
-// but cancels on a NAV/SYM tap, which ZMK sticky keys can't do).
-&sk {
-        release-after-ms = <2000>;
-};
 
 / {
         chosen {
@@ -52,6 +45,13 @@
         };
 
         behaviors {
+                // Callum's one-shot mods (src/behaviors/behavior_callum_oneshot.c). No timeout: a tapped
+                // mod applies to the next key. Pressing NAV or SYM (positions 31, 34) cancels it.
+                osm: callum_oneshot {
+                        compatible = "zmk,behavior-callum-oneshot";
+                        #binding-cells = <1>;
+                        cancel-key-positions = <31 34>;
+                };
                 // Swappers (Callum's swapper.c), from the zmk-tri-state module.
                 // First press: hold modifier + tap key. Further presses: tap key.
                 // Any other key or layer change (e.g. releasing NAV) releases the modifier.

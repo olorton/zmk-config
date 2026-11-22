@@ -1,0 +1,17 @@
+/* One-shots stack: Shift then Cmd, both apply to the next key and are released together. */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,2,10)    /* tap one-shot Cmd */
+        ZMK_MOCK_RELEASE(0,2,10)
+        ZMK_MOCK_RELEASE(0,1,10)  /* release layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: Cmd+Shift+A */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: plain */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

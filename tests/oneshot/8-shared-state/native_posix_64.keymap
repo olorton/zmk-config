@@ -1,0 +1,15 @@
+/* State is per modifier: two different Cmd keys share one state, so Cmd is pressed once. */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,2,10)    /* tap one-shot Cmd (position 2) */
+        ZMK_MOCK_RELEASE(0,2,10)
+        ZMK_MOCK_PRESS(1,2,10)    /* tap one-shot Cmd (position 5) */
+        ZMK_MOCK_RELEASE(1,2,10)
+        ZMK_MOCK_RELEASE(0,1,10)  /* release layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: Cmd+A */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

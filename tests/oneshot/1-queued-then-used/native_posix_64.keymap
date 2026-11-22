@@ -1,0 +1,15 @@
+/* Tap one-shot Shift on the layer, release the layer: the next key is shifted, the one after is not. */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_RELEASE(0,1,10)  /* release layer (ignored) */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: shifted */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: plain */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

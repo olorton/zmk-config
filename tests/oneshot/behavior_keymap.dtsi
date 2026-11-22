@@ -1,0 +1,41 @@
+/*
+ * Shared test keymap for the Callum one-shot behavior, on a 2x3 mock matrix.
+ * Positions:  0 1 2
+ *             3 4 5
+ * Positions 1 and 4 are layer keys and are the cancel keys (like NAV/SYM).
+ */
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+        osm: callum_oneshot {
+            compatible = "zmk,behavior-callum-oneshot";
+            #binding-cells = <1>;
+            cancel-key-positions = <1 4>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &kp A       &mo 1  &kp B
+                &kp LSHIFT  &mo 1  &kp C
+            >;
+        };
+
+        mod_layer {
+            bindings = <
+                &osm LSHIFT  &trans  &osm LGUI
+                &kp X        &trans  &osm LGUI
+            >;
+        };
+    };
+};
+
+&kscan {
+    columns = <3>;
+};

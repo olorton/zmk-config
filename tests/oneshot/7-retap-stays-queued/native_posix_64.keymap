@@ -1,0 +1,15 @@
+/* Tapping a queued one-shot again keeps it queued, with no release/re-press sent. */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift again */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_RELEASE(0,1,10)  /* release layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: shifted */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

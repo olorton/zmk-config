@@ -1,0 +1,15 @@
+/* Pressing a cancel (layer) key cancels a queued one-shot. */
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        ZMK_MOCK_PRESS(0,1,10)    /* hold layer */
+        ZMK_MOCK_PRESS(0,0,10)    /* tap one-shot Shift */
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_RELEASE(0,1,10)  /* release layer */
+        ZMK_MOCK_PRESS(0,1,10)    /* tap layer key again: cancels Shift */
+        ZMK_MOCK_RELEASE(0,1,10)
+        ZMK_MOCK_PRESS(0,0,10)    /* tap A: plain */
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

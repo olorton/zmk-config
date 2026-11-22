@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Build ZMK firmware locally in Docker, using ZMK's official build image.
 #
-# Usage: ./build.sh [left|right|reset|all] [--update]
+# Usage: ./build.sh [left|right|reset|all|test] [--update]
+#   test       run the behavior unit tests in tests/ (ZMK's native_posix test harness)
 #   --update   force `west update` (otherwise only run on first build or when config/west.yml changes)
 #
 # Output: firmware/<shield>-nice_nano_v2-zmk.uf2
@@ -12,13 +13,13 @@ VOLUME="zmk-workspace"
 BOARD="nice_nano_v2"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-usage() { echo "Usage: $0 [left|right|reset|all] [--update]" >&2; exit 1; }
+usage() { echo "Usage: $0 [left|right|reset|all|test] [--update]" >&2; exit 1; }
 
 target="all"
 force_update=0
 for arg in "$@"; do
   case "$arg" in
-    left|right|reset|all) target="$arg" ;;
+    left|right|reset|all|test) target="$arg" ;;
     --update) force_update=1 ;;
     -h|--help) usage ;;
     *) echo "Unknown argument: $arg" >&2; usage ;;
@@ -26,11 +27,13 @@ for arg in "$@"; do
 done
 
 # Build targets
+run_tests=0
 case "$target" in
   left)  shields="corne_left" ;;
   right) shields="corne_right" ;;
   reset) shields="settings_reset" ;;
   all)   shields="corne_left corne_right settings_reset" ;;
+  test)  shields=""; run_tests=1 ;;
 esac
 
 if ! docker info >/dev/null 2>&1; then
@@ -50,6 +53,8 @@ docker run --rm \
   -e BOARD="$BOARD" \
   -e SHIELDS="$shields" \
   -e FORCE_UPDATE="$force_update" \
+  -e RUN_TESTS="$run_tests" \
+  -e ZMK_TESTS_VERBOSE="${ZMK_TESTS_VERBOSE:-}" \
   -e HOST_UID="$(id -u)" \
   -e HOST_GID="$(id -g)" \
   "$IMAGE" \
@@ -81,7 +86,16 @@ docker run --rm \
       cp "build/$shield/zephyr/zmk.uf2" "$out"
       chown "$HOST_UID:$HOST_GID" "$out" 2>/dev/null || true
     done
+
+    if [ "$RUN_TESTS" = 1 ]; then
+      echo "==> Running tests in tests/ (each case is a full native build; this takes a few minutes)"
+      rm -rf /workspace/build/tests
+      ZMK_SRC_DIR=/workspace/zmk/app ZMK_BUILD_DIR=/workspace/build ZMK_EXTRA_MODULES=/zmk-config \
+        /workspace/zmk/app/run-test.sh /zmk-config/tests
+    fi
   '
+
+[ "$run_tests" = 1 ] && exit 0
 
 echo
 echo "Firmware:"

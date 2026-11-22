@@ -1,0 +1,14 @@
+description: |
+  One-shot modifier ported from Callum Oakley's QMK oneshot.c. The parameter is
+  the modifier (e.g. LSHIFT). No timeout: a queued modifier is used by the next
+  non-modifier key release, or cancelled by pressing a key in cancel-key-positions.
+
+compatible: "zmk,behavior-callum-oneshot"
+
+include: one_param.yaml
+
+properties:
+  cancel-key-positions:
+    type: array
+    default: []
+    description: Key positions whose press cancels any active one-shot (Callum's is_oneshot_cancel_key).
