@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Keep docs/keymap.svg in step with the keymap: if a commit touches the keymap (or how it's
+# drawn), redraw it and add the SVG to the commit. Enable with: git config core.hooksPath .githooks
+set -euo pipefail
+
+if git diff --cached --name-only | grep -qE '^(config/corne\.keymap|keymap_drawer\.config\.yaml|draw\.sh)$'; then
+  echo "pre-commit: keymap changed, redrawing docs/keymap.svg"
+  if ! ./draw.sh; then
+    echo "pre-commit: drawing the keymap failed; commit aborted (bypass with --no-verify)" >&2
+    exit 1
+  fi
+  git add docs/keymap.svg
+fi

@@ -1,0 +1,60 @@
+# keymap-drawer settings for docs/keymap.svg (see draw.sh).
+# Reference: https://github.com/caksoylar/keymap-drawer/blob/main/CONFIGURATION.md
+
+parse_config:
+  trans_legend: {t: "▽", type: trans}
+  # Bindings as they look after the C preprocessor has expanded the keymap's #defines.
+  raw_binding_map:
+    # One-shot mods (Callum's oneshot.c port)
+    "&osm LSHIFT": {t: "Shift", h: "one-shot"}
+    "&osm LCTRL": {t: "Ctrl", h: "one-shot"}
+    "&osm LALT": {t: "Opt", h: "one-shot"}
+    "&osm LGUI": {t: "Cmd", h: "one-shot"}
+    # Swappers
+    "&sw_win": {t: "App", h: "Cmd-Tab"}
+    "&sw_lang": {t: "Lang", h: "Ctrl-Spc"}
+    # Callum's macOS shortcuts
+    "&kp LG(LEFT)": {t: "Home", h: "⌘←"}
+    "&kp LG(RIGHT)": {t: "End", h: "⌘→"}
+    "&kp LG(LBKT)": {t: "Back", h: "⌘["}
+    "&kp LG(RBKT)": {t: "Fwd", h: "⌘]"}
+    "&kp LG(LS(LBKT))": {t: "Tab ←", h: "⌘⇧["}
+    "&kp LG(LS(RBKT))": {t: "Tab →", h: "⌘⇧]"}
+    "&kp LA(LG(LEFT))": {t: "Spc ←", h: "⌥⌘←"}
+    "&kp LA(LG(RIGHT))": {t: "Spc →", h: "⌥⌘→"}
+    # Plain keys
+    "&kp LSHIFT": "Shift"
+    "&kp SPACE": "Space"
+    "&kp TAB": "Tab"
+    "&kp ESC": "Esc"
+    "&kp RET": "Enter"
+    "&kp BSPC": "Bksp"
+    "&kp DEL": "Del"
+    "&kp CAPS": "Caps"
+    "&kp PG_UP": "PgUp"
+    "&kp PG_DN": "PgDn"
+    "&kp LEFT": "←"
+    "&kp RIGHT": "→"
+    "&kp UP": "↑"
+    "&kp DOWN": "↓"
+    "&kp C_VOL_UP": "Vol +"
+    "&kp C_VOL_DN": "Vol −"
+    "&kp C_PP": "Play"
+    # System
+    "&bootloader": {t: "BOOT", h: "flash"}
+    "&sys_reset": "RST"
+    "&bt BT_SEL 0": "BT 1"
+    "&bt BT_SEL 1": "BT 2"
+    "&bt BT_SEL 2": "BT 3"
+    "&bt BT_SEL 3": "BT 4"
+    "&bt BT_SEL 4": "BT 5"
+    "&bt BT_CLR": {t: "BT clr", h: "unpair"}
+    "&out OUT_TOG": "USB/BT"
+
+draw_config:
+  # Two layers per row so all five fit on one printed page.
+  n_columns: 2
+  dark_mode: false
+  # White page, so it prints cleanly.
+  svg_extra_style: |
+    svg.keymap { background-color: white; }

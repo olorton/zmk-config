@@ -60,6 +60,25 @@ Usually you only need to flash the **left half** (the central, which talks to th
 3. Reset both halves at the same time so they pair with each other.
 4. Pair "Corne" in macOS Bluetooth settings.
 
+## Printable keymap
+
+![Keymap](docs/keymap.svg)
+
+`docs/keymap.svg` is drawn from `config/corne.keymap` by [keymap-drawer](https://github.com/caksoylar/keymap-drawer). Open it in a browser and print it. To redraw it by hand:
+
+```sh
+pipx install keymap-drawer==0.23.0   # once
+./draw.sh
+```
+
+A pre-commit hook redraws it and adds it to any commit that changes the keymap, so the printout never goes stale. Enable it once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+Labels and print styling are set in `keymap_drawer.config.yaml`.
+
 ## Layout (Callum-style)
 
 Four layers, as in Callum's keymap, plus a SYS layer for wireless controls. **NAV** and **SYM** are held with the middle thumbs. Holding **both** gives **NUM**. The outer thumb keys are blank.
