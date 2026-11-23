@@ -64,7 +64,7 @@ Usually you only need to flash the **left half** (the central, which talks to th
 
 ![Keymap](docs/keymap.svg)
 
-`docs/keymap.svg` is drawn from `config/corne.keymap` by [keymap-drawer](https://github.com/caksoylar/keymap-drawer). Open it in a browser and print it. To redraw it by hand:
+`docs/keymap.svg` is drawn from `config/corne.keymap` by [keymap-drawer](https://github.com/caksoylar/keymap-drawer). To print it, open `docs/keymap-print.html` in a browser and print: all layers fit on one A4 page (leave Scale at 100% and Margins at Default). To redraw it by hand:
 
 ```sh
 pipx install keymap-drawer==0.23.0   # once
