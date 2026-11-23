@@ -52,8 +52,8 @@ parse_config:
     "&out OUT_TOG": "USB/BT"
 
 draw_config:
-  # Two layers per row so all five fit on one printed page.
-  n_columns: 2
+  # One layer per row, stacked vertically.
+  n_columns: 1
   dark_mode: false
   # White page, so it prints cleanly.
   svg_extra_style: |
